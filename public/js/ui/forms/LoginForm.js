@@ -3,14 +3,20 @@
  * входа в портал
  * Наследуется от AsyncForm
  * */
-class LoginForm {
-  /**
-   * Производит авторизацию с помощью User.login
-   * После успешной авторизации, сбрасывает форму,
-   * устанавливает состояние App.setState( 'user-logged' ) и
-   * закрывает окно, в котором находится форма
-   * */
-  onSubmit( options ) {
-
-  }
+class LoginForm extends AsyncForm {
+    /**
+     * Производит авторизацию с помощью User.login
+     * После успешной авторизации, сбрасывает форму,
+     * устанавливает состояние App.setState( 'user-logged' ) и
+     * закрывает окно, в котором находится форма
+     * */
+    onSubmit(options) {
+        User.login(options, (error, response) => {
+            if (error === null && response.success) {
+                this.element.reset();
+                App.setState('user-logged');
+                App.getModal('login').close();
+            }
+        })
+    }
 }
