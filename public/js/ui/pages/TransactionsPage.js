@@ -40,24 +40,11 @@ class TransactionsPage {
         removeButton.addEventListener('click', () => this.removeAccount());
 
         this.element.addEventListener('click', (event) => {
-            let transactionButtonRemove = this.getTransactionRemoveButton(event.target);
-
-            if (event.target.localName === 'i' && event.target.classList.contains('fa-trash')) {
-                transactionButtonRemove = this.getTransactionRemoveButton(event.target.parentNode);
-            }
-
-            if (transactionButtonRemove != null) {
-                this.removeTransaction(transactionButtonRemove.dataset.id);
+            let deleteButton = event.target.closest('.transaction__remove');
+            if (deleteButton != null) {
+                this.removeTransaction(deleteButton.dataset.id);
             }
         });
-    }
-
-    getTransactionRemoveButton(element) {
-        if (element.classList.contains('transaction__remove')) {
-            return element;
-        }
-
-        return null;
     }
 
     /**
@@ -128,7 +115,7 @@ class TransactionsPage {
      * Устанавливает заголовок: «Название счёта»
      * */
     clear() {
-        this.renderTransactions();
+        this.renderTransactions([]);
         this.element.querySelector('span.content-title').innerText = 'Название счёта';
         delete this.lastOptions;
     }
